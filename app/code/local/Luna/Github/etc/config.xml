@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Luna_Github>
+            <version>1.0.0</version>
+        </Luna_Github>
+    </modules>
+    <frontend>
+        <routers>
+            <github>
+                <use>standard</use>
+                <args>
+                    <module>Luna_Github</module>
+                    <frontName>github</frontName>
+                </args>
+            </github>
+        </routers>
+    </frontend>
+    <global>
+        <helpers>
+            <github>
+                <class>Luna_Github_Helper</class>
+            </github>
+            <github_repositories>
+                <class>Luna_Github_Helper_Repositories</class>
+            </github_repositories>
+        </helpers>
+    </global>
+</config>
