@@ -25,5 +25,47 @@
                 <class>Luna_Github_Helper_Repositories</class>
             </github_repositories>
         </helpers>
+        <models>
+            <github>
+                <class>Luna_Github_Model</class>
+            </github>
+        </models>
+        <resources>
+            <luna_github_setup>
+                <setup>
+                    <module>Luna_Github</module>
+                </setup>
+            </luna_github_setup>
+        </resources>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Luna_Github>
+                    <files>
+                        <default>Luna_Github.csv</default>
+                    </files>
+                </Luna_Github>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <github>
+                                            <title>Store Github Module Section</title>
+                                        </github>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
 </config>

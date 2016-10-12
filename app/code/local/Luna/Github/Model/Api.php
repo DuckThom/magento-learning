@@ -2,9 +2,16 @@
 
 use GuzzleHttp\Client;
 
-abstract class Luna_Github_Model_Api
+abstract class Luna_Github_Model_Api implements Luna_Github_Interfaces_Model_Api
 {
-    const GITHUB_BASE_URL = 'https://api.github.com';
+    /**
+     * Root endpoint for the GitHub API
+     */
+    const GITHUB_ROOT_ENDPOINT = 'https://api.github.com';
+
+    /**
+     * GitHub API version to use
+     */
     const GITHUB_API_VERSION = 'v3';
 
     /**
@@ -18,7 +25,7 @@ abstract class Luna_Github_Model_Api
     private $parameters;
 
     /**
-     * @var
+     * @var array
      */
     protected $endpoints = [];
 
@@ -28,37 +35,39 @@ abstract class Luna_Github_Model_Api
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => self::GITHUB_BASE_URL
+            'base_uri' => self::GITHUB_ROOT_ENDPOINT
         ]);
 
         $this->parameters = [
             'http_errors' => false,
-            'headers' => []
+            'headers' => [
+                'Authorization' => ($this->hasApiKey() ? Mage::getStoreConfig('github/api_settings/api_key') : null)
+            ]
         ];
     }
 
     /**
      * Alias for buildUri
      *
-     * @param  string  $url
+     * @param  string  $uri
      * @param  array  $values
      * @return bool|string
      */
-    public function buildUrl($url, $values)
+    public function buildUrl($uri, $values)
     {
-        return $this->buildUri($url, $values);
+        return $this->buildUri($uri, $values);
     }
 
     /**
      * Build the API uri
      *
-     * @param  string  $url
+     * @param  string  $uri
      * @param  array  $values
      * @return bool|string
      */
-    public function buildUri($url, $values)
+    public function buildUri($uri, $values)
     {
-        return $this->bindParam($url, $values, [
+        return $this->bindParam($uri, $values, [
             'separator' => '/',
             'prefix' => ':'
         ]);
@@ -70,7 +79,7 @@ abstract class Luna_Github_Model_Api
      * @param  string  $uri
      * @return string
      */
-    protected function getApiUrl($uri = '')
+    public function getApiUrl($uri = '')
     {
         return self::GITHUB_BASE_URL . $uri;
     }
@@ -91,11 +100,13 @@ abstract class Luna_Github_Model_Api
      * Set and return the request headers
      *
      * @param  array  $headers
-     * @return array
+     * @return $this
      */
-    protected function setHeaders($headers)
+    public function setHeaders($headers)
     {
-        $this->parameters['headers'] = $headers;
+        $this->parameters['headers'] = array_merge($this->parameters['headers'], $headers);
+
+        return $this;
     }
 
     /**
@@ -104,11 +115,13 @@ abstract class Luna_Github_Model_Api
      * @param  string  $method
      * @param  string  $uri
      * @param  array  $options
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function request($method, $uri, $options = [])
+    public function request($method, $uri, $options = [])
     {
         $parameters = array_merge($this->parameters, $options);
+
+        self::logRequest($method, $parameters, $uri);
 
         return $this->client->request($method, $uri, $parameters);
     }
@@ -121,7 +134,7 @@ abstract class Luna_Github_Model_Api
      * @param  array  $options
      * @return bool|string
      */
-    protected function bindParam($source, $values, $options = [])
+    public function bindParam($source, $values, $options = [])
     {
         if (!is_string($source)) {
             return false;
@@ -165,8 +178,39 @@ abstract class Luna_Github_Model_Api
      * @param  string  $alias
      * @return string|bool
      */
-    protected function getEndpoint($alias)
+    public function getEndpoint($alias)
     {
         return ($this->endpoints[$alias] ?: false);
+    }
+
+    /**
+     * Check if the api key has been set in the config
+     *
+     * @return bool
+     */
+    public function hasApiKey()
+    {
+        return (bool) Mage::getStoreConfig('github/api_settings/api_key');
+    }
+
+    /**
+     * Log an API request to the database
+     *
+     * @param  string $method
+     * @param  array  $params
+     * @param  string  $endpoint
+     */
+    public static function logRequest($method, $params, $endpoint)
+    {
+        $write = Mage::getSingleton("core/resource")->getConnection("core_write");
+        $query = "INSERT INTO  github_request_log (method, params, endpoint, client) values (:method, :params, :endpoint, :client)";
+        $binds = [
+            'method' => $method,
+            'params' => $params,
+            'endpoint' => $endpoint,
+            'client' => ($_SERVER['HTTP_X_FORWARDED_FOR'] ?: $_SERVER['REMOTE_ADDR'])
+        ];
+
+        $write->query($query, $binds);
     }
 }

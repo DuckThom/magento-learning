@@ -30,12 +30,6 @@ class Luna_Github_IndexController extends Mage_Core_Controller_Front_Action
             'direction' => $direction
         ]);
 
-//        $response = Mage::helper('github/repositories')->getUserRepos($username, [
-//            'type' => $type,
-//            'sort' => $sort,
-//            'direction' => $direction
-//        ]);
-
         echo (string) $response->getBody();
     }
 }
