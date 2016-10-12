@@ -30,9 +30,6 @@ define('BP', dirname(dirname(__FILE__)));
 
 Mage::register('original_include_path', get_include_path());
 
-// I don't care that I'm hacking the core, fuck it all!
-include_once BP . DS . 'vendor' . DS . 'autoload.php';
-
 if (defined('COMPILER_INCLUDE_PATH')) {
     $appPath = COMPILER_INCLUDE_PATH;
     set_include_path($appPath . PS . Mage::registry('original_include_path'));

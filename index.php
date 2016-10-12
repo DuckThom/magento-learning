@@ -39,6 +39,9 @@ Whoops, it looks like you have an invalid PHP version.</h3></div><p>Magento supp
  */
 define('MAGENTO_ROOT', getcwd());
 
+// Composer autoloader
+include_once __DIR__ . '/vendor/autoload.php';
+
 $compilerConfig = MAGENTO_ROOT . '/includes/config.php';
 if (file_exists($compilerConfig)) {
     include $compilerConfig;
@@ -65,7 +68,6 @@ require MAGENTO_ROOT . '/app/bootstrap.php';
 require_once $mageFilename;
 
 #Varien_Profiler::enable();
-
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
 }
