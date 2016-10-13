@@ -4,9 +4,40 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4befd748452c7a1af0ae4b358350d648",
-    "content-hash": "3111ebef28825f247db4759f417a93ee",
+    "hash": "e93c34a7a76bc341a82c18d0f06a405c",
+    "content-hash": "88cbdaeb7afc6b4e84448bb34ee3f863",
     "packages": [
+        {
+            "name": "colinmollenhour/modman",
+            "version": "1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/colinmollenhour/modman.git",
+                "reference": "c45a6b2f5903dff8c8f029e50d5a93e73fb72793"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/colinmollenhour/modman/zipball/c45a6b2f5903dff8c8f029e50d5a93e73fb72793",
+                "reference": "c45a6b2f5903dff8c8f029e50d5a93e73fb72793",
+                "shasum": ""
+            },
+            "bin": [
+                "modman"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Colin Mollenhour"
+                }
+            ],
+            "description": "Module Manager",
+            "homepage": "https://github.com/colinmollenhour/modman",
+            "time": "2015-05-09 00:02:36"
+        },
         {
             "name": "guzzlehttp/guzzle",
             "version": "6.2.2",

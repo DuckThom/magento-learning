@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config>
+    <menu>
+        <system>
+            <children>
+                <luna_github translate="title" module="luna_github">
+                    <sort_order>10</sort_order>
+                    <title>GitHub API Requests</title>
+                    <action>adminhtml/request</action>
+                </luna_github>
+            </children>
+        </system>
+    </menu>
+</config>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <luna_github_index_index>
+        <remove name="right.poll" />
+
+        <reference name="content">
+            <block type="page/html" name="repository_list" output="toHtml" template="luna_github/repository/list.phtml" />
+            <!--<block type="luna_github/repository_list" name="repository_list" />-->
+        </reference>
+    </luna_github_index_index>
+</layout>

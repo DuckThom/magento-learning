@@ -2,33 +2,65 @@
 <config>
     <modules>
         <Luna_Github>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Luna_Github>
     </modules>
     <frontend>
         <routers>
-            <github>
+            <luna_github>
                 <use>standard</use>
                 <args>
                     <module>Luna_Github</module>
                     <frontName>github</frontName>
                 </args>
-            </github>
+            </luna_github>
         </routers>
+        <layout>
+            <updates>
+                <luna_github>
+                    <file>luna/github.xml</file>
+                </luna_github>
+            </updates>
+        </layout>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <luna_github before="Mage_Adminhtml">Luna_Github_Adminhtml</luna_github>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <global>
+        <blocks>
+            <luna_github>
+                <class>Luna_Github_Block</class>
+            </luna_github>
+        </blocks>
         <helpers>
-            <github>
+            <luna_github>
                 <class>Luna_Github_Helper</class>
-            </github>
+            </luna_github>
             <github_repositories>
                 <class>Luna_Github_Helper_Repositories</class>
             </github_repositories>
         </helpers>
         <models>
-            <github>
+            <luna_github>
                 <class>Luna_Github_Model</class>
-            </github>
+                <resourceModel>luna_github_resource</resourceModel>
+            </luna_github>
+            <luna_github_resource>
+                <class>Luna_Github_Model_Resource</class>
+                <entities>
+                    <log_request>
+                        <table>github_log_request</table>
+                    </log_request>
+                </entities>
+            </luna_github_resource>
         </models>
         <resources>
             <luna_github_setup>
@@ -39,6 +71,13 @@
         </resources>
     </global>
     <adminhtml>
+        <layout>
+            <updates>
+                <Luna_Github>
+                    <file>luna_github.xml</file>
+                </Luna_Github>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <Luna_Github>

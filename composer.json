@@ -1,6 +1,7 @@
 {
     "require": {
         "larapack/dd": "^1.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "colinmollenhour/modman": "^1.12"
     }
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <config>
     <tabs>
-        <github translate="label" module="github">
+        <github translate="label" module="luna_github">
             <label>Github</label>
             <sort_order>99999</sort_order>
         </github>
     </tabs>
     <sections>
-        <github translate="label" module="github">
+        <github translate="label" module="luna_github">
             <label>Configuration</label>
             <tab>github</tab>
             <frontend_type>text</frontend_type>

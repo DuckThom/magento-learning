@@ -123,7 +123,9 @@ abstract class Luna_Github_Model_Api implements Luna_Github_Interfaces_Model_Api
 
         self::logRequest($method, $parameters, $uri);
 
-        return $this->client->request($method, $uri, $parameters);
+        $_response = $this->client->request($method, $uri, $parameters);
+
+        // TODO: convert json input to Varien collection
     }
 
     /**
@@ -196,21 +198,24 @@ abstract class Luna_Github_Model_Api implements Luna_Github_Interfaces_Model_Api
     /**
      * Log an API request to the database
      *
-     * @param  string $method
+     * @param  string  $method
      * @param  array  $params
      * @param  string  $endpoint
      */
     public static function logRequest($method, $params, $endpoint)
     {
-        $write = Mage::getSingleton("core/resource")->getConnection("core_write");
-        $query = "INSERT INTO  github_request_log (method, params, endpoint, client) values (:method, :params, :endpoint, :client)";
-        $binds = [
+        $data = [
             'method' => $method,
-            'params' => $params,
+            'params' => json_encode($params),
             'endpoint' => $endpoint,
             'client' => ($_SERVER['HTTP_X_FORWARDED_FOR'] ?: $_SERVER['REMOTE_ADDR'])
         ];
 
-        $write->query($query, $binds);
+        $item = new Varien_Object();
+        $item->setData($data);
+
+        $log = Mage::getModel('luna_github/log_request');
+        $log->setData($data);
+        $log->save();
     }
 }

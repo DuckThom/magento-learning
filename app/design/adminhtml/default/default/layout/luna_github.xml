@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+   <adminhtml_log_requests_index>
+        <reference name="content">
+            <block type="luna_github/adminhtml_github_request" name="request_grid" />
+        </reference>
+    </adminhtml_log_requests_index>
+</layout>

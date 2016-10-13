@@ -22,7 +22,7 @@ class Luna_Github_RepositoryController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $response = Mage::helper('github')->repositories()->getUserRepos($username, [
+        $response = Mage::helper('luna_github')->repositories()->getUserRepos($username, [
             'type' => $type,
             'sort' => $sort,
             'direction' => $direction
