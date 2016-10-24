@@ -28,7 +28,7 @@ class Luna_Github_RepositoryController extends Mage_Core_Controller_Front_Action
             'direction' => $direction
         ]);
 
-        echo (string) $response->getBody();
+        dd($response);
     }
 
 }

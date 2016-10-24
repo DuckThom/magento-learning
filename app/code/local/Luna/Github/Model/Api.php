@@ -115,7 +115,7 @@ abstract class Luna_Github_Model_Api implements Luna_Github_Interfaces_Model_Api
      * @param  string  $method
      * @param  string  $uri
      * @param  array  $options
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return mixed
      */
     public function request($method, $uri, $options = [])
     {
@@ -124,8 +124,27 @@ abstract class Luna_Github_Model_Api implements Luna_Github_Interfaces_Model_Api
         self::logRequest($method, $parameters, $uri);
 
         $_response = $this->client->request($method, $uri, $parameters);
+        $_statusCode = $_response->getStatusCode();
+        $method = "_parse{$_statusCode}Response";
 
-        // TODO: convert json input to Varien collection
+        // Try to use a parser for a specific HTTP code
+        if (method_exists(static::class, $method)) {
+            return $this->$method($_response);
+        }
+
+        // Fallback to general response handling
+        return $this->_parseResponse($_response);
+    }
+
+    /**
+     * Override this method to parse the response
+     *
+     * @param  mixed|\Psr\Http\Message\ResponseInterface  $response
+     * @return mixed
+     */
+    protected function _parseResponse($response)
+    {
+        return $response;
     }
 
     /**
